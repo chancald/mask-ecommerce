@@ -1,1 +1,1 @@
-web: gunicorn mask-eccomerce.wsgi --log-file -
+web: gunicorn mask-ecommerce.wsgi --log-file -
