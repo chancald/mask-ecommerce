@@ -1,0 +1,1 @@
+web: gunicorn mask-eccomerce.wsgi --log-file -

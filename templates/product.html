@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+
+{% block content %}
+
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+      <div class="row wow fadeIn">
+        <div class="col-md-4 mb-4 text-center">
+          <img src="{{object.image.url}}" style="height:auto; max-width:85%;" class="rounded" alt="">
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="p-4">
+            <div class="mb-3">
+              <a href="">
+                <span class="badge purple mr-1">{{object.get_category_display}}</span>
+              </a>
+            </div>
+            <p class="lead">
+              <span class="mr-1">
+                {% if object.discount_price  %}
+                  <del>RD${{object.price}}</del>
+                  <span>RD${{object.discount_price}}</span>
+                {% else %}
+                  <span>RD${{object.price}}</span>
+                {% endif %}
+              </span>
+            </p>
+
+            <p class="lead font-weight-bold">Descipción</p>
+            <p>{{object.description}}</p>
+            {% comment %} <form class="d-flex justify-content-left">
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+            </form> {% endcomment %}
+            {% if request.user.is_authenticated %}
+            <a href="{{object.get_add_to_cart_url}}" class="btn btn-primary btn-md my-2 p" type="submit">Añadir al carrito
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="{{object.get_remove_from_cart_url}}" class="btn btn-danger btn-md my-2 p" type="submit">Quitar del carrito
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+            {% else %}
+            <div class="mt-5 bold">
+            *Debe de iniciar sesión para poder usar el carrito
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+  {% endblock %}

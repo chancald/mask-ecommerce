@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  .small-img{
+    width: 70px;
+    height: 70px;
+  }
+</style>
+<main class="mt-5 pt-4">
+    <div class="container">
+        <section class="mb-4">
+            {% if order.items.all %}
+            <h1>Resumen de Orden</h1>
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Descuento</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for order_item in order.items.all %}
+                            <tr>
+                                <th scope="row">
+                                    <a href="{% url 'product' order_item.item.slug %}">
+                                        <img src="{{order_item.item.image.url}}" height="100px" class="rounded" alt="">  
+                                    </a> 
+                                </th>
+                                <td>
+                                    <a href="{{order_item.item.get_add_item_quantity_url}}">
+                                        <i class="fas fa-plus-circle ml-2"></i>
+                                    </a>
+                                    {{order_item.quantity}}
+                                    <a href="{{order_item.item.get_remove_item_quantity_url}}">
+                                        <i class="fas fa-minus-circle mr-2"></i>
+                                    </a>
+                                </td>
+                                {% if order_item.item.discount_price %}
+                                    <td>${{order_item.item.discount_price}}</td>
+                                {% else %}
+                                    <td>${{order_item.item.price}}</td>
+                                {% endif %}
+                                <td>${{order_item.get_amount_saved}}</td>
+                                <td>${{order_item.get_final_price}}</td>
+                                
+                                <td>
+                                   <a href="{{order_item.item.get_remove_from_cart_summary_url}}">
+                                        <span style="color: red;" >
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">
+                                    <a href="{% url 'home' %}" class="btn btn-outline-primary float-right">Seguir comprando</a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        {% if order.get_total %}
+                        <tr>
+                            <td colspan="5">
+                                <h4>Total Orden</h4>
+                            </td>
+                            <td colspan="1">
+                                RD${{order.get_total}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="6">
+                                <a href="{% url 'checkout' %}" class="btn btn-outline-warning float-right ml-2">Proceder al pago</a>
+                                <a href="{% url 'home' %}" class="btn btn-outline-primary float-right">Seguir comprando</a>
+                            </td>
+                        </tr>
+
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <h4 class="text-center mt-5 pt-4">No hay productos en el carrito</h4>
+                    <a href="{% url 'home' %}" class="mt-5 btn btn-outline-primary">Seguir Comprando</a>
+                    {% endif %}
+                </div>
+        </section>
+    </div>
+</main>
+
+{% endblock content %}
