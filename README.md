@@ -1,7 +1,9 @@
 # Face Mask Ecommerce Website
 
-Website built using Django as the backend and deployed through Heroku. 
+Ecommerce website built using Django as the backend and deployed through Heroku. 
 Some of the features are shopping cart functionality, sending of emails and user authentication.
+
+www.tusmascarillasymas.com
 
 ### TODO
 - [ ] Add SSL certificate
